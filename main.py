@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, session, redirect
 from flask_sqlalchemy import SQLAlchemy
-from flask_mail import Mail
+from flask_mail import Mail , Message
 from werkzeug.utils import secure_filename
 from datetime import datetime 
 import math
+import threading
 
 import os
 import json
@@ -108,6 +109,13 @@ def post_route(post_slug):
 
     return render_template('post.html', params=params, post=post)
 
+def send_email_async(app, msg):
+    with app.app_context():
+        try:
+            mail.send(msg)
+        except Exception as e:
+            print(f"Email failed: {e}")
+
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
     if(request.method == 'POST'):
@@ -118,14 +126,12 @@ def contact():
         entry = Contact(name=name, email=email, phone_number=phone, message=message, date=datetime.now())
         db.session.add(entry)
         db.session.commit()
-        try:
-            mail.send_message('New message from ' + name,
-                              sender=email,
-                              recipients=[params['gmail_user']],
-                              body=message + "\n" + phone
-                              )
-        except Exception as e:
-            print(f"Email failed: {e}")
+        msg = Message('New message from ' + name,
+                      sender=email,
+                      recipients=[params['gmail_user']],
+                      body=message + "\n" + phone)
+        thread = threading.Thread(target=send_email_async, args=(app, msg))
+        thread.start()
     return render_template('contact.html', params=params)
 
 @app.route('/edit/<string:sno>', methods=["GET","POST"])
