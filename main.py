@@ -110,19 +110,21 @@ def post_route(post_slug):
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
     if(request.method == 'POST'):
-        print(request.form) 
         name = request.form.get('name')
         email = request.form.get('email')
         phone = request.form.get('phone')
         message = request.form.get('message')
-        entry = Contact(name=name, email=email, phone_number=phone, message=message,date=datetime.now())
+        entry = Contact(name=name, email=email, phone_number=phone, message=message, date=datetime.now())
         db.session.add(entry)
         db.session.commit()
-        mail.send_message('New message from ' + name,
-                          sender=email,
-                          recipients=[params['gmail_user']],
-                          body=message + "\n" + phone
-                          )
+        try:
+            mail.send_message('New message from ' + name,
+                              sender=email,
+                              recipients=[params['gmail_user']],
+                              body=message + "\n" + phone
+                              )
+        except Exception as e:
+            print(f"Email failed: {e}")
     return render_template('contact.html', params=params)
 
 @app.route('/edit/<string:sno>', methods=["GET","POST"])
