@@ -24,7 +24,8 @@ app.config.update(
     MAIL_PORT='465',
     MAIL_USE_SSL=True,
     MAIL_USERNAME=params['gmail_user'],
-    MAIL_PASSWORD=params['gmail_password']
+    MAIL_PASSWORD=params['gmail_password'],
+    MAIL_TIMEOUT=5
 )
 mail = Mail(app)
 
