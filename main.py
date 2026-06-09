@@ -14,7 +14,7 @@ with open('config.json', 'r') as c:
 local_server = params["local_server"] == "True"
 app = Flask(__name__)
 app.secret_key = 'code-orbit-blogs'
-app.config['UPLOAD_FOLDER'] = os.path.join(os.path.dirname(__file__), 'static')
+app.config['UPLOAD_FOLDER'] = params["upload_location"]
 
 app.config.update(
     MAIL_SERVER='smtp.gmail.com',
