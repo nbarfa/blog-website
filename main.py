@@ -7,14 +7,17 @@ import math
 
 import os
 import json
-
-with open('config.json', 'r') as c:
-    params = json.load(c)["params"]
+config_json = os.environ.get('CONFIG_JSON')
+if config_json:
+    params = json.loads(config_json)["params"]
+else:
+    with open('config.json', 'r') as c:
+        params = json.load(c)["params"]
 
 local_server = params["local_server"] == "True"
 app = Flask(__name__)
 app.secret_key = 'code-orbit-blogs'
-app.config['UPLOAD_FOLDER'] = params["upload_location"]
+app.config['UPLOAD_FOLDER'] = os.path.join(os.path.dirname(__file__), 'static')
 
 app.config.update(
     MAIL_SERVER='smtp.gmail.com',
