@@ -22,11 +22,12 @@ app.config['UPLOAD_FOLDER'] = os.path.join(os.path.dirname(__file__), 'static')
 
 app.config.update(
     MAIL_SERVER='smtp.gmail.com',
-    MAIL_PORT='465',
-    MAIL_USE_SSL=True,
+    MAIL_PORT=587,
+    MAIL_USE_SSL=False,
+    MAIL_USE_TLS=True,
     MAIL_USERNAME=params['gmail_user'],
     MAIL_PASSWORD=params['gmail_password'],
-    MAIL_TIMEOUT=5
+    MAIL_TIMEOUT=10
 )
 mail = Mail(app)
 
