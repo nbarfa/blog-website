@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block body %}
+<!-- Page Header-->
+{% set bg = url_for('static', filename='assets/img/about-bg.jpg')%}
+<header class="masthead" style="background-image: url('{{ bg}}')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="page-heading">
+                    <h1>About Me</h1>
+                    <span class="subheading">This is what I do.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Main Content-->
+<main class="mb-4">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <p>Welcome to CodeOrbit, a place where ideas, technology, and curiosity come together. Here you'll find
+                    articles on a variety of topics, from programming and artificial intelligence to productivity,
+                    innovation, and the latest trends in tech. Our goal is to make learning enjoyable, simplify complex
+                    concepts, and inspire readers to explore the ever-changing digital world.
+                </p>
+            </div>
+        </div>
+    </div>
+</main>
+<!-- Footer-->
+
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="js/scripts.js"></script>
+</body>
+
+</html>
+{% endblock %}
