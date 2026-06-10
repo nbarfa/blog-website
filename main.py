@@ -10,11 +10,7 @@ import json
 import cloudinary
 import cloudinary.uploader
 
-cloudinary.config(
-    cloud_name=params['cloudinary_cloud_name'],
-    api_key=params['cloudinary_api_key'],
-    api_secret=params['cloudinary_api_secret']
-)
+
 
 config_json = os.environ.get('CONFIG_JSON')
 if config_json:
@@ -44,6 +40,12 @@ if(local_server):
 else:
     app.config['SQLALCHEMY_DATABASE_URI'] = params['prod_uri']
 db = SQLAlchemy(app)
+
+cloudinary.config(
+    cloud_name=params['cloudinary_cloud_name'],
+    api_key=params['cloudinary_api_key'],
+    api_secret=params['cloudinary_api_secret']
+)
 
 class Contact(db.Model):
     sno = db.Column(db.Integer, primary_key=True)
