@@ -51,7 +51,7 @@ class Posts(db.Model):
     sno = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80), nullable=False)
     tagline = db.Column(db.String(200), nullable=False)
-    slug = db.Column(db.String(25), nullable=False)
+    slug = db.Column(db.String(100), nullable=False)
     content = db.Column(db.String(200), nullable=False)
     img_file = db.Column(db.String(12), nullable=True)
     date = db.Column(db.String(12), nullable=True)
@@ -84,7 +84,7 @@ def home():
         page = 1
     page=int(page)
     posts = posts[(page-1)*int(params['no_of_posts']): (page-1)*int(params['no_of_posts'])+int(params['no_of_posts'])]
-    
+
     if (page==1):
         prev = "#"
         next = "/?page=" + str(page+1)
