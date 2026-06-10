@@ -7,7 +7,14 @@ import math
 import threading
 import os
 import json
+import cloudinary
+import cloudinary.uploader
 
+cloudinary.config(
+    cloud_name=params['cloudinary_cloud_name'],
+    api_key=params['cloudinary_api_key'],
+    api_secret=params['cloudinary_api_secret']
+)
 
 config_json = os.environ.get('CONFIG_JSON')
 if config_json:
@@ -53,7 +60,7 @@ class Posts(db.Model):
     tagline = db.Column(db.String(200), nullable=False)
     slug = db.Column(db.String(100), nullable=False)
     content = db.Column(db.String(200), nullable=False)
-    img_file = db.Column(db.String(12), nullable=True)
+    img_file = db.Column(db.String(500), nullable=True)
     date = db.Column(db.String(12), nullable=True)
 
 @app.route('/dashboard', methods=['GET', 'POST'])
@@ -181,8 +188,9 @@ def uploader():
     if ('user' in session and session['user'] == params['admin_user']):
         if request.method == 'POST':
             f = request.files['file1']
-            f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
-            return "Uploaded Successfully"
+            result = cloudinary.uploader.upload(f)
+            img_url = result['secure_url']
+            return img_url
 
 @app.route("/logout")
 def logout():
