@@ -5,9 +5,10 @@ from werkzeug.utils import secure_filename
 from datetime import datetime 
 import math
 import threading
-
 import os
 import json
+
+
 config_json = os.environ.get('CONFIG_JSON')
 if config_json:
     params = json.loads(config_json)["params"]
@@ -83,7 +84,7 @@ def home():
         page = 1
     page=int(page)
     posts = posts[(page-1)*int(params['no_of_posts']): (page-1)*int(params['no_of_posts'])+int(params['no_of_posts'])]
-    # pagination logic
+    
     if (page==1):
         prev = "#"
         next = "/?page=" + str(page+1)
@@ -96,8 +97,6 @@ def home():
         prev = "/?page=" + str(page-1)
         next = "/?page=" + str(page+1)
 
-
-    
     return render_template('index.html', params=params, posts=posts, prev=prev, next=next)
 
 @app.route('/about')
