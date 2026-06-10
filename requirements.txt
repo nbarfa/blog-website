@@ -4,3 +4,4 @@ Flask-Mail
 PyMySQL
 Werkzeug
 gunicorn
+cloudinary
